@@ -1,0 +1,19 @@
+{
+  "name": "bitbucket-chat-bot",
+  "version": "1.0.0",
+  "description": "A simple Hangouts Chat Bot to show information about BitBucket",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Julien Bras",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "google-auth-library": "^2.0.1",
+    "googleapis": "^35.0.0"
+  }
+}
