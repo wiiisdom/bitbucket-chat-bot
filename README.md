@@ -41,7 +41,7 @@ http :3000/bot/room_id x-event-key:pullrequest:comment_created @test/data/commen
 
 ## Testing
 
-TODO
+ToDo
 
 ```
 npm test
