@@ -32,8 +32,10 @@ npm start
 Once started locally you can launch queries to simulate bitbucket interactions. Here using [httpie](https://httpie.org/):
 
 ```
+# New pull request
+http :3000/bot/room_id x-event-key:pullrequest:comment_created @test/data/comment.json
 # New comment on pull request
-http :3000/bot/room_id x-event-key:pullrequest:comment-created @test/data/comment.json
+http :3000/bot/room_id x-event-key:pullrequest:comment_created @test/data/comment.json
 
 ```
 
