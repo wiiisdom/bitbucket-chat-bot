@@ -1,6 +1,8 @@
 # Bitbucket Chat Bot
 
-#WORKINPROGRESS
+_The missing link between BitBucket and Hangouts Chat._
+
+![](screenshot.png)
 
 **This bot is able to give you info about [BitBucket](https://bitbucket.org) PR on a [Google Hangouts Chat](https://chat.google.com/) room.**
 
