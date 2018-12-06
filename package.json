@@ -1,20 +1,33 @@
 {
-  "name": "bitbucket-chat-bot",
-  "version": "1.0.0",
-  "description": "A simple Hangouts Chat Bot to show information about BitBucket",
-  "main": "app.js",
+  "name": "botkit-starter-googlehangouts",
+  "version": "0.0.1",
+  "description": "A starter kit for building a custom Google Hangouts Chat bot",
+  "main": "bot.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "DEBUG=botkit:* node bot.js"
   },
-  "author": "Julien Bras",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/howdyai/botkit-starter-googlehangouts.git"
+  },
+  "author": "@lahdiouiouadie",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/howdyai/botkit-starter-googlehangouts/issues"
+  },
+  "homepage": "https://github.com/howdyai/botkit-starter-googlehangouts#readme",
+  "keywords": [
+    "bots",
+    "chatbots",
+    "google",
+    "hangouts",
+    "google hangouts chat"
+  ],
   "dependencies": {
     "body-parser": "^1.18.3",
-    "dotenv": "^6.1.0",
-    "express": "^4.16.4",
-    "google-auth-library": "^2.0.1",
-    "googleapis": "^35.0.0"
+    "botkit": "^0.6.19",
+    "debug": "^3.1.0",
+    "express": "^4.16.3",
+    "node-env-file": "^0.1.8"
   }
 }
