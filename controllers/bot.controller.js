@@ -46,5 +46,24 @@ exports.handle = function(req, res) {
     message.send(type, req.params.room, msg)
     res.send('OK')
   }
+}
+
+exports.chat = function(req, res) {
+  var data = req.body
+  if(data.type == 'MESSAGE') {
+    res.send({
+      text: `You say *${data.message.text}* but I don't understand, sorry.`
+    })
+  }
+  else if(data.type == 'ADDED_TO_SPACE') {
+    res.send({
+      text: `Hello I am happy to be invited on this room. Please login to bitbucket here.`
+    })
+  }
+  else { //REMOVED_FROM_SPACE
+    // do action when removed from space
+    res.send('removed')
+
+  }
 
 }
