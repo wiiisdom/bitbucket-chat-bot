@@ -14,7 +14,7 @@ module.exports = (controller) => {
                                         "buttons": [
                                             {
                                                 "textButton": {
-                                                    "text": "Get Started",
+                                                    "text": "Get Started with Adrian M.",
                                                     "onClick": {
                                                         "openLink": {
                                                             "url": "https://botkit.ai/docs/"

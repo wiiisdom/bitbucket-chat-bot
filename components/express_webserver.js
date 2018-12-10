@@ -19,6 +19,8 @@ module.exports = (controller, bot) => {
         debug(`🚀 Congratulation, the web server is online!`);
     });
 
+    require('./incoming-webhook.js')(webserver, controller)
+
     controller.webserver = webserver;
 
     return webserver;
