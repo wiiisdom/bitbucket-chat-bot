@@ -1,0 +1,10 @@
+{
+  "botium": {
+    "Capabilities": {
+      "PROJECTNAME": "botkit-starter-googlehangouts",
+      "CONTAINERMODE": "echo"
+    },
+    "Sources": {},
+    "Envs": {}
+  }
+}

@@ -4,7 +4,10 @@
   "description": "A starter kit for building a custom Google Hangouts Chat bot",
   "main": "bot.js",
   "scripts": {
-    "start": "DEBUG=botkit:* node bot.js"
+    "start": "DEBUG=botkit:* node bot.js",
+    "dev": "nodemon bot.js",
+    "test": "node_modules/.bin/mocha",
+    "mocha": "mocha spec"
   },
   "repository": {
     "type": "git",
@@ -26,8 +29,21 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "botkit": "^0.6.19",
+    "botkit-storage-mongo": "^1.0.7",
     "debug": "^3.1.0",
     "express": "^4.16.3",
     "node-env-file": "^0.1.8"
+  },
+  "devDependencies": {
+    "botium-bindings": "^2.0.1",
+    "mocha": "^5.2.0",
+    "botium-connector-echo": "latest"
+  },
+  "botium": {
+    "convodirs": [
+      "spec/convo"
+    ],
+    "expandConvos": true,
+    "expandUtterancesToConvos": false
   }
 }

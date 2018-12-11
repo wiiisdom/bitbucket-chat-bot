@@ -29,7 +29,9 @@ if (!process.env.GOOGLE_APPLICATION_CREDENTIALS) {
     process.exit(1);
 }
 
-const Botkit = require('botkit');
+const Botkit = require('botkit')
+
+const mongoStorage = require('botkit-storage-mongo')({mongoUri: process.env.MONGO_URL || 'mongodb://localhost/bb'})
 
 const endpoint = "receive";
 const token = process.env.GOOGLE_VERIFICATION_TOKEN;
@@ -41,6 +43,7 @@ const controller = Botkit.googlehangoutsbot({
     token,
     port,
     debug,
+    storage: mongoStorage
 });
 
 const bot = controller.spawn({});
