@@ -24,8 +24,8 @@ const env = require('node-env-file');
 
 env(__dirname + '/.env');
 
-if (!process.env.GOOGLE_APPLICATION_CREDENTIALS) {
-    console.log('Error: Specify a GOOGLE_APPLICATION_CREDENTIALS in environment.');
+if (!process.env.GOOGLE_APPLICATION_CREDENTIALS && !process.env.GOOGLE_APPLICATION_CREDENTIALS_DATA) {
+    console.log('Error: Specify a GOOGLE_APPLICATION_CREDENTIALS or GOOGLE_APPLICATION_CREDENTIALS_DATA in environment.');
     process.exit(1);
 }
 

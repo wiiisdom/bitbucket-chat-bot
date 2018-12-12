@@ -1,7 +1,7 @@
 {
-  "name": "botkit-starter-googlehangouts",
-  "version": "0.0.1",
-  "description": "A starter kit for building a custom Google Hangouts Chat bot",
+  "name": "bitbucket-chat-bot",
+  "version": "2.0.0",
+  "description": "A simple Hangouts Chat Bot to show information about BitBucket",
   "main": "bot.js",
   "scripts": {
     "start": "DEBUG=botkit:* node bot.js",
@@ -9,26 +9,19 @@
     "test": "node_modules/.bin/mocha",
     "mocha": "mocha spec"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/howdyai/botkit-starter-googlehangouts.git"
-  },
-  "author": "@lahdiouiouadie",
+  "author": "Julien Bras <julien.bras@gbandsmith.com>",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/howdyai/botkit-starter-googlehangouts/issues"
-  },
-  "homepage": "https://github.com/howdyai/botkit-starter-googlehangouts#readme",
+  "repository": "github:gbandsmith/bitbucket-chat-bot",
+  "bugs": "https://github.com/gbandsmith/bitbucket-chat-bot/issues",
+  "homepage": "https://github.com/gbandsmith/bitbucket-chat-bot#readme",
   "keywords": [
     "bots",
-    "chatbots",
-    "google",
-    "hangouts",
-    "google hangouts chat"
+    "hangouts chat",
+    "bitbucket"
   ],
   "dependencies": {
     "body-parser": "^1.18.3",
-    "botkit": "^0.6.19",
+    "botkit": "github:bobman38/botkit#google_cred_as_env",
     "botkit-storage-mongo": "^1.0.7",
     "debug": "^3.1.0",
     "express": "^4.16.3",
