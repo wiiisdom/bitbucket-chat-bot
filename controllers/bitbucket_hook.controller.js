@@ -4,6 +4,7 @@ module.exports = (req, res, controller) => {
   res.send('ok');
   var room = req.params.room
 
+  console.log('parent: '+room);
   console.log('Status 200 will be send');
   console.log('Header: '+req.headers)
 
@@ -52,7 +53,7 @@ module.exports = (req, res, controller) => {
   controller.spawn({}, function(bot) {
       bot.say(
           {
-              parent: `spaces/${room}`,
+              parent: room,
               threadKey: threadK,
               requestBody: {
                   cards: [
