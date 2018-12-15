@@ -1,68 +1,98 @@
-const request = require('request');
+const axios = require('axios');
+const qs = require('querystring');
 
-exports.refreshToken = (message, controller) => {
-    // let code = req.query.code
-    let user = message.user;
-    console.log('user: '+user)
-    // let rtoken;
+/**
+ * Check if credential available in user object
+ */
+exports.checkCredentials = (user_data) => new Promise((resolve,reject) => {
+  if(user_data && user_data.auth) {
+    resolve(user_data)
+  }
+  else {
+    reject("Not logged yet !")
+  }
+})
 
-    controller.storage.users.get(user, (err, user_data)  => {
-        if(err) {
-            console.log(err)
+/**
+ * Get a valid BB token even (renew if needed)
+ */
+exports.handleValidToken = (user_data) => new Promise((resolve, reject) => {
+  let auth = user_data.auth
+  axios.get('https://api.bitbucket.org/2.0/user', {
+    headers: {
+      Authorization: `Bearer ${auth.access_token}`
+    }
+  })
+  .then((response) => {
+    // token still valid go to next step
+    resolve(user_data)
+  })
+  .catch((error) => {
+    // renew token
+    axios.post('https://bitbucket.org/site/oauth2/access_token',
+      qs.stringify({
+        grant_type: 'refresh_token',
+        refresh_token: user_data.auth.refresh_token
+      }), {
+        auth: {
+          username: process.env.BB_OAUTH_KEY,
+          password: process.env.BB_OAUTH_SECRET
         }
-        
-        let rtoken = user_data.auth.refresh_token
-        console.log("rtoken = "+rtoken);
-
-        // make the POST with the refresh_token
-        console.log("rtoken1 = "+rtoken);
-        request.post({
-            url: 'https://bitbucket.org/site/oauth2/access_token', 
-            form: {
-                grant_type: 'refresh_token',
-                refresh_token: rtoken
-            },
-            auth: {
-                user: process.env.BB_OAUTH_KEY,
-                pass: process.env.BB_OAUTH_SECRET,
-                sendImmediately: true
-            }
-        }, (err, res1 ,body) => {
-            if (err) {
-                console.log("access token refresh err: ");
-                console.log(err);
-            }
-            let dataAccessToken = JSON.parse(body);
-            console.log('Status refresh token: '+res1.statusCode)
-            if (res1.statusCode != 200) {
-                console.log(res1.statusCode);
-                console.log("access token body: ");
-                console.log(dataAccessToken);
-            }
-
-            let newAccessToken = dataAccessToken.access_token;
-            user_data.auth.access_token = newAccessToken;
-
-            if (res1.statusCode == 200) {
-                // console.log('last_user_data: ');
-                // console.log(user_data);
-
-                controller.storage.users.save(user_data).then(() => {
-                    controller.spawn({}, function(bot) {
-                        bot.say(
-                            {
-                                parent: `${user_data.space}`,
-                                requestBody: {
-                                    text: `You successfully refreshed token for ${user_data.account.display_name}.`
-                                }
-                            }
-                        );
-                    });
-                }).catch((err) => {
-                    console.log(err)
-                })
-            }
-        })
+      }
+    )
+    .then((response => {
+      user_data.auth = response.data
+      resolve(user_data)
+    }))
+    .catch((error) => {
+      reject(error)
     })
+  })
+})
 
-}
+/**
+ * Get user account on BB
+ */
+exports.user = (auth) => axios.get('https://api.bitbucket.org/2.0/user', {
+  headers: {
+    Authorization: `Bearer ${auth.access_token}`
+  }
+})
+
+/**
+ * Login on BB via OAuth2
+ */
+exports.login = (code) => axios.post('https://bitbucket.org/site/oauth2/access_token',
+  qs.stringify({
+    grant_type: 'authorization_code',
+    code: code
+  }), {
+    auth: {
+      username: process.env.BB_OAUTH_KEY,
+      password: process.env.BB_OAUTH_SECRET
+    }
+  }
+)
+
+/**
+ * Create a webhook on bitbucket
+ */
+exports.createHook = (user_data, username, repo_slug, space) => axios.post(`https://api.bitbucket.org/2.0/repositories/${username}/${repo_slug}/hooks`, {
+  description: 'Hangouts Chat',
+  url: `${process.env.HOSTNAME}/bitbucket/hook?`+qs.stringify({space: space}),
+  active: true,
+  events: [
+      'pullrequest:unapproved',
+      'pullrequest:approved',
+      'pullrequest:comment_updated',
+      'pullrequest:comment_created',
+      'pullrequest:updated',
+      'pullrequest:rejected',
+      'pullrequest:fulfilled',
+      'pullrequest:created'
+  ]
+}, {
+  headers: {
+      Authorization: `Bearer ${user_data.auth.access_token}`
+  },
+})

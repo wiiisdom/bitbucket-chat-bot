@@ -20,6 +20,7 @@
     "bitbucket"
   ],
   "dependencies": {
+    "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "botkit": "github:bobman38/botkit#google_cred_as_env",
     "botkit-storage-mongo": "^1.0.7",
