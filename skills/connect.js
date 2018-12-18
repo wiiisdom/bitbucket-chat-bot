@@ -37,22 +37,14 @@ module.exports = (controller) => {
         .then((response) => {
           let listResponse = '*The list of connected repositories:*\n';
 
-          controller.storage.channels.all()
+          controller.storage.channels.get(message.space.name)
           .then(connectedRepos => {
-            if (connectedRepos.length == 0){
+            if (connectedRepos==null){
               listResponse = '*No connected repositories*';
-            }
-
-            let countElement = 0;
-            connectedRepos.forEach(element => {
-              if (message.space.name == element.id) {
+            } else {
+              connectedRepos.forEach(element => {
                 listResponse = listResponse+"* "+element.repo+"\n";
-                countElement++;
-              }
-            });
-
-            if (countElement == 0) {
-              listResponse = '*No connected repositories*';
+              });
             }
 
             bot.reply(message, listResponse);
