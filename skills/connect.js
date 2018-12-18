@@ -15,7 +15,7 @@ module.exports = (controller) => {
             .then(bitbucket.handleValidToken)
             .then((user_data) => controller.storage.users.save(user_data))
             .then((user_data) => bitbucket.createHook(user_data, username, repo_slug, message.space.name))
-            .then((user_data) => bitbucketStorage.saveHook(user_data, controller, username, repo_slug))
+            .then((user_data) => bitbucketStorage.saveHook(user_data, controller, username, repo_slug, message.space.name))
             .then((response) => {
               bot.reply(message, `This room is now connected to *${username}/${repo_slug}*`);
             })
@@ -39,9 +39,22 @@ module.exports = (controller) => {
 
           controller.storage.channels.all()
           .then(connectedRepos => {
+            if (connectedRepos.length == 0){
+              listResponse = '*No connected repositories*';
+            }
+
+            let countElement = 0;
             connectedRepos.forEach(element => {
-              listResponse = listResponse+"* "+element.id+"\n";
+              if (message.space.name == element.id) {
+                listResponse = listResponse+"* "+element.repo+"\n";
+                countElement++;
+              }
             });
+
+            if (countElement == 0) {
+              listResponse = '*No connected repositories*';
+            }
+
             bot.reply(message, listResponse);
           });
         })
