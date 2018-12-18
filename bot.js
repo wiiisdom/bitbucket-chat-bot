@@ -24,7 +24,14 @@ const env = require('node-env-file');
 
 env(__dirname + '/.env');
 
-if (!process.env.GOOGLE_APPLICATION_CREDENTIALS && !process.env.GOOGLE_APPLICATION_CREDENTIALS_DATA) {
+let google_auth_params = {}
+if(process.env.GOOGLE_APPLICATION_CREDENTIALS_DATA) {
+  // Handle json file as a environement variable for Heroku like systems
+  let google_auth_params = {
+      credentials: JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS_DATA)
+  }
+}
+else if (!process.env.GOOGLE_APPLICATION_CREDENTIALS && !process.env.GOOGLE_APPLICATION_CREDENTIALS_DATA) {
     console.log('Error: Specify a GOOGLE_APPLICATION_CREDENTIALS or GOOGLE_APPLICATION_CREDENTIALS_DATA in environment.');
     process.exit(1);
 }
@@ -43,7 +50,8 @@ const controller = Botkit.googlehangoutsbot({
     token,
     port,
     debug,
-    storage: mongoStorage
+    storage: mongoStorage,
+    google_auth_params: google_auth_params
 });
 
 const bot = controller.spawn({});
