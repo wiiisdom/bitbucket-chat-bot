@@ -5,8 +5,6 @@ const bitbucket = require('../services/bitbucket.service')
 module.exports = (controller) => {
 
     controller.on(['direct_message', 'message_received'],  (bot, message) => {
-      console.log(bot)
-
       bot.reply(message, '*Here are the commands that I understand:*\n'+
         '`connect <repository-url>`: Create a subscription to a repository that you can administer\n' +
         '`login`: Link your Bitbucket Cloud account to your Hangouts Chat account (only on DM)\n' +
