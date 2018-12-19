@@ -38,12 +38,12 @@ module.exports = (controller) => {
           let listResponse = '*The list of connected repositories:*\n';
 
           controller.storage.channels.get(message.space.name)
-          .then(connectedRepos => {
-            if (connectedRepos==null){
+          .then(channel => {
+            if (channel==null){
               listResponse = '*No connected repositories*';
             } else {
-              connectedRepos.forEach(element => {
-                listResponse = listResponse+"* "+element.repo+"\n";
+              channel.repo.forEach(element => {
+                listResponse = listResponse+"* "+element+"\n";
               });
             }
 
