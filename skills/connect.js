@@ -20,7 +20,7 @@ module.exports = (controller) => {
               bot.reply(message, `This room is now connected to *${username}/${repo_slug}*`);
             })
             .catch((error) => {
-              bot.reply(message, `How how error: ${error}`);
+              bot.reply(message, `Error: ${error}`);
             })
     });
 
