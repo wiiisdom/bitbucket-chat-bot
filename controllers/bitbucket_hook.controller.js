@@ -21,7 +21,12 @@ module.exports = (req, res, controller) => {
       operation += element+" ";
   });
 
+  var reviewersString = '';
   let pr = req.body.pullrequest
+  pr.reviewers.forEach(element => {
+    reviewersString += reviewersString+" "+element.display_name+", ";
+  });
+  reviewersString = reviewersString.substr(0, reviewersString.length-2);
 
   controller.spawn({}, function(bot) {
       bot.say(
@@ -56,8 +61,8 @@ module.exports = (req, res, controller) => {
                         "textParagraph": {
                           "text": "<b>"+pr.rendered.title.html+"</b><br>"+
                           pr.rendered.description.html+"<br>"+
-                          "<b>Branch: </b><br> <font color=\"#ff0000\">"+pr.destination.branch.name+"</font><br>"+
-                          "<b>Reviewers: </b><br> "+pr.reviewers+"<br>"+
+                          "<b>Branch: </b><br> <font color=\"#ff0000\">"+pr.source.branch.name+"</font><br>"+
+                          "<b>Reviewers: </b><br><font color=\"#0000ee\">"+reviewersString+"</font><br>"+
                           "<b>Comments: </b><br> "+pr.comment_count+""
                         }
                       }
