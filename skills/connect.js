@@ -1,6 +1,7 @@
 const qs = require('querystring');
 const axios = require('axios');
 const bitbucket = require('../services/bitbucket.service')
+const bitbucketStorage = require('../services/storage.service')
 
 module.exports = (controller) => {
 
@@ -14,11 +15,12 @@ module.exports = (controller) => {
             .then(bitbucket.handleValidToken)
             .then((user_data) => controller.storage.users.save(user_data))
             .then((user_data) => bitbucket.createHook(user_data, username, repo_slug, message.space.name))
+            .then((user_data) => bitbucketStorage.saveHook(user_data, controller, username, repo_slug, message.space.name))
             .then((response) => {
               bot.reply(message, `This room is now connected to *${username}/${repo_slug}*`);
             })
             .catch((error) => {
-              bot.reply(message, `How how error: ${error}`);
+              bot.reply(message, `Error: ${error}`);
             })
     });
 
@@ -32,12 +34,24 @@ module.exports = (controller) => {
       controller.storage.users.get(message.user)
         .then(bitbucket.checkCredentials)
         .then(bitbucket.handleValidToken)
-        .then((user_data) => controller.storage.users.save(user_data))
         .then((response) => {
-          bot.reply(message, `Here is the list`);
+          let listResponse = '*The list of connected repositories:*\n';
+
+          controller.storage.channels.get(message.space.name)
+          .then(connectedRepos => {
+            if (connectedRepos==null){
+              listResponse = '*No connected repositories*';
+            } else {
+              connectedRepos.forEach(element => {
+                listResponse = listResponse+"* "+element.repo+"\n";
+              });
+            }
+
+            bot.reply(message, listResponse);
+          });
         })
         .catch((error) => {
-          bot.reply(message, `How how error: ${error}`);
+          bot.reply(message, `Channel list error: ${error}`);
         })
     });
 }
