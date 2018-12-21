@@ -27,7 +27,7 @@ env(__dirname + '/.env');
 let google_auth_params = {}
 if(process.env.GOOGLE_APPLICATION_CREDENTIALS_DATA) {
   // Handle json file as a environement variable for Heroku like systems
-  let google_auth_params = {
+  google_auth_params = {
       credentials: JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS_DATA)
   }
 }
