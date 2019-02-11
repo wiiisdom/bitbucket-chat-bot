@@ -103,3 +103,12 @@ As of today you can:
 - connect to a existing repository
 - list repos connected to current channel
 - show the help message !
+
+
+## Technical documentation
+
+Here is the description of each endpoint in the application.
+
+- ``/hangouts/receive``: This endpoint is managed by the ``botkit`` framework. It is set in the Google Hangout Chat configuration. Hangout will speak to the bot via this endpoint.
+- ``/bitbucket/hook``:  This endpoint is used by the BitBucket webhook system. When the bot is connected to  a repo, it create a webhook with this endpoint in the repo configuration. There is always the ``space`` parameter specified that is the id of the room where the repo is connected.
+- ``/bitbucket/oauth``: This endpoint is used during the BitBucket user authentication. It allow to login and store the user token for later usage.
