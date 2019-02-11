@@ -6,11 +6,17 @@ _The missing link between BitBucket and Hangouts Chat._
 
 **This bot is able to give you info about [BitBucket](https://bitbucket.org) PR on a [Google Hangouts Chat](https://chat.google.com/) room.**
 
+## Requirements
+
+This tool rely on **NodeJS** with a **MongoDB** backend.
+
 ## Running bitbucket-chat-bot locally
 
 The environment variable ``$CREDS`` will contains the google credentials for sending
 messages to Hangouts Chat. Tip from [here](https://github.com/googleapis/google-auth-library-nodejs/blob/master/README.md#loading-credentials-from-environment-variables). You will have the credentials in JSON format when you create
 a [service account for Hangouts Chat](https://developers.google.com/hangouts/chat/how-tos/service-accounts)
+
+The environment variable ``MONGO_URL`` must contain a valid mongo DB url. If the variable is not set then it is set by default to `mongodb://localhost/bb` (so you must have mongo installed on your local computer). You can get a MongoDB hosted [here](https://mlab.com/welcome/) for example.
 
 ```
 export CREDS='{
@@ -25,6 +31,7 @@ export CREDS='{
   "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
   "client_x509_cert_url": "your-cert-url"
 }'
+export MONGO_URL='mongodb://[username:password@]host1[:port1][/[database][?options]]'
 npm install
 npm start
 ```
@@ -35,9 +42,9 @@ Once started locally you can launch queries to simulate bitbucket interactions. 
 
 ```
 # New pull request
-http :3000/bot/room_id x-event-key:pullrequest:comment_created @test/data/comment.json
+http :3000/bitbucket/hook space==4LWz7AAAAAE x-event-key:pullrequest:comment_created @test/data/comment.json
 # New comment on pull request
-http :3000/bot/room_id x-event-key:pullrequest:comment_created @test/data/comment.json
+http :3000/bitbucket/hook space==4LWz7AAAAAE x-event-key:pullrequest:comment_created @test/data/comment.json
 
 ```
 
@@ -75,6 +82,8 @@ dokku config:set appname CREDS='{
   "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
   "client_x509_cert_url": "your-cert-url"
 }'
+dokku config:set appname MONGO_URL='mongodb://[username:password@]host1[:port1][/[database][?options]]'
+
 ```
 
 Follow google-hangouts-chat publish procedure [here](https://developers.google.com/hangouts/chat/how-tos/bots-publish)
@@ -85,4 +94,4 @@ Activate webhook in BitBucket
 - Webhooks
 - Add
 - Trigger on all PR actions
-- URL : ``https://appname.dokkuhost/bot/{room_id}``
+- URL : ``https://appname.dokkuhost/bitbucket/hook?space={room_id}``
