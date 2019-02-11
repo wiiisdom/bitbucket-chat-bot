@@ -2,7 +2,7 @@
 
 _The missing link between BitBucket and Hangouts Chat._
 
-![](screenshot.png)
+![](screen1.png)
 
 **This bot is able to give you info about [BitBucket](https://bitbucket.org) PR on a [Google Hangouts Chat](https://chat.google.com/) room.**
 
@@ -65,7 +65,7 @@ git remote add dokku dokku@dokkuhost:appname
 git push dokku
 ```
 
-On dokku host:
+### On dokku host:
 
 ```
 dokku config:set --no-restart appname DOKKU_LETSENCRYPT_EMAIL=myemail
@@ -86,12 +86,20 @@ dokku config:set appname MONGO_URL='mongodb://[username:password@]host1[:port1][
 
 ```
 
+### Setup the Hangout Chat Bot
+
 Follow google-hangouts-chat publish procedure [here](https://developers.google.com/hangouts/chat/how-tos/bots-publish)
 
-Activate webhook in BitBucket
+The endpoint for the Hangout configuration is ``https://appname.dokkuhost/hangouts/receive``
 
-- Go yo project settings in bitbucket
-- Webhooks
-- Add
-- Trigger on all PR actions
-- URL : ``https://appname.dokkuhost/bitbucket/hook?space={room_id}``
+### Speak to the bot
+
+Speak to the bot:
+
+![](screen2.png)
+
+As of today you can:
+- login to BB
+- connect to a existing repository
+- list repos connected to current channel
+- show the help message !
