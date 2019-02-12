@@ -6,8 +6,7 @@
   "scripts": {
     "start": "DEBUG=botkit:* node bot.js",
     "dev": "nodemon bot.js",
-    "test": "node_modules/.bin/mocha",
-    "mocha": "mocha spec"
+    "test": "node_modules/.bin/mocha"
   },
   "author": "Julien Bras <julien.bras@gbandsmith.com>",
   "license": "MIT",
@@ -29,15 +28,6 @@
     "node-env-file": "^0.1.8"
   },
   "devDependencies": {
-    "botium-bindings": "^2.0.1",
-    "mocha": "^5.2.0",
-    "botium-connector-echo": "latest"
-  },
-  "botium": {
-    "convodirs": [
-      "spec/convo"
-    ],
-    "expandConvos": true,
-    "expandUtterancesToConvos": false
+    "mocha": "^5.2.0"
   }
 }
